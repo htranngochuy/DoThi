@@ -1,0 +1,97 @@
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int V = 11;
+
+
+struct Node {
+    int data;     
+    Node* next;     
+};
+
+
+Node* adj[30]; 
+
+string getTenTinh(int id) {
+    switch (id) {
+        case 1: return "Ha Noi";
+        case 2: return "Hai Duong";
+        case 3: return "Hai Phong";
+        case 4: return "Uong Bi";
+        case 5: return "Bac Giang";
+        case 6: return "Bac Ninh";
+        case 7: return "Thai Nguyen";
+        case 8: return "Son Tay";
+        case 9: return "Hoa Binh";
+        case 10: return "Phu Ly";
+        case 11: return "Hung Yen";
+        default: return "";
+    }
+}
+
+void khoiTaoList() {
+    for (int i = 1; i <= V; i++) {
+        adj[i] = NULL; 
+    }
+}
+
+
+void themVaoDau(int u, int v) {
+    Node* p = new Node;
+    p->data = v;
+    p->next = adj[u];   
+    adj[u] = p;        
+}
+
+void themCanh(int u, int v) {
+    themVaoDau(u, v);
+    themVaoDau(v, u); 
+}
+
+void inDanhSach() {
+    cout << "--- DANH SACH LIEN KET (Su dung con tro) ---\n";
+    
+    for (int i = 1; i <= V; i++) {
+        cout << "Dinh " << i << " (" << getTenTinh(i) << "): ";
+        
+        Node* p = adj[i];
+        if (p == NULL) {
+            cout << "Khong co ket noi";
+        }
+        
+        while (p != NULL) {
+            cout << "-> " << p->data << " ";
+            p = p->next;
+        }
+        cout << "\n";
+    }
+}
+
+int main() {
+    khoiTaoList();
+
+
+    themCanh(1, 2); 
+    themCanh(1, 10);
+    themCanh(1, 9); 
+    themCanh(1, 8); 
+    themCanh(1, 7); 
+    themCanh(1, 6); 
+
+    themCanh(2, 11); 
+    themCanh(11, 10);
+    
+    themCanh(6, 5); 
+    themCanh(5, 4); 
+    themCanh(6, 4); 
+    
+    themCanh(4, 3); 
+    themCanh(3, 2); 
+
+    inDanhSach();
+
+    return 0;
+}
